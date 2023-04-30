@@ -15,6 +15,8 @@
         public List<Subdivision> Subdivisions { get; set; }
 
         public List<HolidayComment> Comments { get; set; }
+
+        public string CurrentName => Name.FirstOrDefault()?.Text;
     }
 
     internal class HolidayName

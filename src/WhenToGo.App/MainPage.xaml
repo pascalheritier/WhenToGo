@@ -18,11 +18,23 @@
             <CollectionView ItemsSource="{Binding Holidays}">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <HorizontalStackLayout>
-                            <Label Text="{Binding Type}"/>
-                            <Label Text="{Binding StartDate}"/>
-                            <Label Text="{Binding EndDate}"/>
-                        </HorizontalStackLayout>
+                        <Frame Padding="5" Margin="1">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding CurrentName}"/>
+                                <Label Text="{Binding Type}"/>
+                                <Label Text="{Binding StartDate, StringFormat='{}{0:\\Fro\\m: dd/MM/yyyy}'}"/>
+                                <Label Text="{Binding EndDate, StringFormat='{}{0:\\To: dd/MM/yyyy}'}"/>
+                                <Label Text="Cantons:"/>
+                                <CollectionView ItemsSource="{Binding Subdivisions}"
+                                                ItemsLayout="HorizontalList">
+                                    <CollectionView.ItemTemplate>
+                                        <DataTemplate>
+                                            <Label Text="{Binding ShortName}"/>
+                                        </DataTemplate>
+                                    </CollectionView.ItemTemplate>
+                                </CollectionView>
+                            </VerticalStackLayout>
+                        </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
             </CollectionView>
