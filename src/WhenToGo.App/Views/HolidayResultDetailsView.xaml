@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WhenToGo.App.Views.HolidayResultDetailsView"
+             xmlns:converters="clr-namespace:WhenToGo.App.Converters"
+             Title="HolidayResultDetailsView">
+    <StackLayout>
+        <Label Text="{Binding Holidays.Count}"/>
+
+        <ScrollView>
+            <!-- RESULTS -->
+            <CollectionView ItemsSource="{Binding Holidays}">
+                <CollectionView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="5" Margin="1">
+                            <VerticalStackLayout>
+                                <Label Text="{Binding CurrentName}"/>
+                                <Label Text="{Binding Type}"/>
+                                <Label Text="{Binding StartDate, StringFormat='{}{0:\\Fro\\m: dd/MM/yyyy}'}"/>
+                                <Label Text="{Binding EndDate, StringFormat='{}{0:\\To: dd/MM/yyyy}'}"/>
+                                <Label Text="{Binding Subdivisions.Count, StringFormat='{}{0:Cantons: 0}'}"/>
+                                <ScrollView Orientation="Horizontal">
+                                    <CollectionView ItemsSource="{Binding Subdivisions}"
+                                                HorizontalScrollBarVisibility="Always"
+                                                ItemsLayout="HorizontalList">
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate>
+                                                <VerticalStackLayout>
+                                                    <Image Source="{Binding Code,Converter={converters:IsoCodeToImageConverter}}"
+                                                           MaximumWidthRequest="32"
+                                                           MaximumHeightRequest="32"
+                                                       WidthRequest="32"
+                                                       HeightRequest="32"/>
+                                                    <Label Text="{Binding ShortName}" HorizontalOptions="Center"/>
+                                                </VerticalStackLayout>
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+                                </ScrollView>
+                            </VerticalStackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
+        </ScrollView>
+    </StackLayout>
+</ContentPage>

@@ -1,12 +1,14 @@
 ﻿using System.Windows.Input;
 using WhenToGo.App.Services;
+using WhenToGo.App.Utils;
+using WhenToGo.App.Views;
 
 namespace WhenToGo.App.ViewModels
 {
     internal class MainViewModel : BaseViewModel
     {
         #region Consts
-        
+
         private const string ApiDateTimeFormat = "yyyy-MM-dd";
 
         #endregion
@@ -14,8 +16,6 @@ namespace WhenToGo.App.ViewModels
         #region Members
 
         private IHolidayRetriever _holidayRetriever;
-
-        public bool IsProcessingData { get; set; }
 
         #endregion
 
@@ -30,17 +30,28 @@ namespace WhenToGo.App.ViewModels
 
         #endregion
 
-        #region Holidays
+        #region Description
+
+        public HolidayResultDetailsViewModel? HolidayResultDetailsViewModel { get; set; }
+
+
+        public string? ErrorMessage
+        {
+            get => _errorMessage;
+            private set => SetField(ref _errorMessage, value);
+        }
+        private string _errorMessage;
+
+        public bool IsProcessingData
+        {
+            get => _isProcessingData;
+            private set => SetField(ref _isProcessingData, value);
+        }
+        private bool _isProcessingData;
 
         public DateTime SelectedDateFrom { get; set; }
-        public DateTime SelectedDateTo { get; set; }
 
-        public IEnumerable<CountryHoliday> Holidays
-        {
-            get => _holidays;
-            private set => SetField(ref _holidays, value);
-        }
-        private IEnumerable<CountryHoliday> _holidays;
+        public DateTime SelectedDateTo { get; set; }
 
         public ICommand CommandGetHolidays
         {
@@ -48,21 +59,38 @@ namespace WhenToGo.App.ViewModels
             {
                 _commandGetHolidays ??= new Command(async () =>
                 {
-                    IsProcessingData = true;
-                    string dateFrom = SelectedDateFrom.ToString(ApiDateTimeFormat);
-                    string dateTo = SelectedDateTo.ToString(ApiDateTimeFormat);
-                    string countryIsoCode = "CH";
-                    string languageIsoCode = "FR";
-                    List<CountryHoliday> countryHolidays = new List<CountryHoliday>();
-                    countryHolidays.AddRange(await _holidayRetriever.GetPublicHolidays(dateFrom, dateTo, countryIsoCode, languageIsoCode));
-                    countryHolidays.AddRange(await _holidayRetriever.GetSchoolHolidays(dateFrom, dateTo, countryIsoCode, languageIsoCode));
-                    Holidays = countryHolidays;
-                    IsProcessingData = false;
+                    try
+                    {
+                        ErrorMessage = null;
+                        IsProcessingData = true;
+                        string dateFrom = SelectedDateFrom.ToString(ApiDateTimeFormat);
+                        string dateTo = SelectedDateTo.ToString(ApiDateTimeFormat);
+                        string countryIsoCode = "CH";
+                        string languageIsoCode = "FR";
+                        List<CountryHoliday> countryHolidays = new List<CountryHoliday>();
+                        countryHolidays.AddRange(await _holidayRetriever.GetPublicHolidays(dateFrom, dateTo, countryIsoCode, languageIsoCode));
+                        countryHolidays.AddRange(await _holidayRetriever.GetSchoolHolidays(dateFrom, dateTo, countryIsoCode, languageIsoCode));
+                        HolidayResultDetailsViewModel = new(countryHolidays, SelectedDateFrom, SelectedDateTo);
+                        IsProcessingData = false;
+                        var navigationParameter = new Dictionary<string, object>
+                        {
+                            {
+                                AppConstants.HolidayDetailParameter,
+                                HolidayResultDetailsViewModel
+                            }
+                        };
+                        await Shell.Current.GoToAsync($"{nameof(HolidayResultDetailsView).ToLower()}", navigationParameter);
+                    }
+                    catch (Exception ex)
+                    {
+                        IsProcessingData = false;
+                        ErrorMessage = ex.Message;
+                    }
                 });
                 return _commandGetHolidays;
             }
         }
-        private ICommand _commandGetHolidays; 
+        private ICommand _commandGetHolidays;
 
         #endregion
     }
