@@ -33,7 +33,7 @@
 
     internal class Subdivision
     {
-        public string IsoCode { get; set; }
+        public string Code { get; set; }
         public string ShortName { get; set; }
     }
 }
