@@ -1,6 +1,6 @@
 ﻿namespace WhenToGo
 {
-    internal class CountryHoliday
+    public class CountryHoliday
     {
         public DateTime StartDate { get; set; }
 
@@ -19,19 +19,19 @@
         public string CurrentName => Name.FirstOrDefault()?.Text;
     }
 
-    internal class HolidayName
+    public class HolidayName
     {
         public string Text { get; set; }
         public string Language { get; set; }
     }
 
-    internal class HolidayComment
+    public class HolidayComment
     {
         public string Text { get; set; }
         public string Language { get; set; }
     }
 
-    internal class Subdivision
+    public class Subdivision
     {
         public string Code { get; set; }
         public string ShortName { get; set; }

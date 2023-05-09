@@ -12,7 +12,7 @@ public partial class HolidayResultDetailsView : ContentPage
 	}
 
 
-    internal HolidayResultDetailsViewModel ViewModel
+    public HolidayResultDetailsViewModel ViewModel
     {
         get => m_ViewModel;
         set

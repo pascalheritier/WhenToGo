@@ -1,6 +1,6 @@
 ﻿namespace WhenToGo
 {
-    internal class CandidateDay
+    public class CandidateDay
     {
         public DateTime Date { get; set; }
 

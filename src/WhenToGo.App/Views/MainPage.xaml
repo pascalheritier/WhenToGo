@@ -4,7 +4,8 @@
              xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
              x:Class="WhenToGo.App.MainPage">
     <Grid>
-        <ActivityIndicator IsRunning="{Binding IsProcessingData}" />
+        <ActivityIndicator IsRunning="{Binding IsProcessingData}"
+                           BackgroundColor="DarkGray"/>
 
         <!-- DATE PICKERS -->
         <Grid ColumnDefinitions="auto, auto" RowDefinitions="auto,auto,auto, auto" HorizontalOptions="Center" VerticalOptions="Center">

@@ -1,6 +1,6 @@
 ﻿namespace WhenToGo.App.ViewModels
 {
-    internal class HolidayResultDetailsViewModel : BaseViewModel
+    public class HolidayResultDetailsViewModel : BaseViewModel
     {
         #region Member
 

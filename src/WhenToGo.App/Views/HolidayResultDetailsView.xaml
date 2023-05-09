@@ -2,12 +2,17 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="WhenToGo.App.Views.HolidayResultDetailsView"
+             xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
              xmlns:converters="clr-namespace:WhenToGo.App.Converters"
-             Title="HolidayResultDetailsView">
-    <StackLayout>
-        <Label Text="{Binding Holidays.Count}"/>
+             Title="Found holidays">
+    <Grid Margin="10">
+        <Label Text="Good to go, no holiday found for date range :-)" 
+               VerticalOptions="Center"
+               HorizontalOptions="Center"
+               TextColor="Green"
+               IsVisible="{Binding Holidays, Converter={toolkit:IsListNullOrEmptyConverter}}"/>
 
-        <ScrollView>
+        <ScrollView IsVisible="{Binding Holidays, Converter={toolkit:IsListNotNullOrEmptyConverter}}" VerticalScrollBarVisibility="Always">
             <!-- RESULTS -->
             <CollectionView ItemsSource="{Binding Holidays}">
                 <CollectionView.ItemTemplate>
@@ -43,5 +48,5 @@
                 </CollectionView.ItemTemplate>
             </CollectionView>
         </ScrollView>
-    </StackLayout>
+    </Grid>
 </ContentPage>
