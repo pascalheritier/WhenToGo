@@ -32,10 +32,10 @@ namespace WhenToGo.App.ViewModels
 
         #region Description
 
-        public HolidayResultDetailsViewModel? HolidayResultDetailsViewModel { get; set; }
+        public HolidayResultDetailsViewModel HolidayResultDetailsViewModel { get; set; }
 
 
-        public string? ErrorMessage
+        public string ErrorMessage
         {
             get => _errorMessage;
             private set => SetField(ref _errorMessage, value);
@@ -70,8 +70,7 @@ namespace WhenToGo.App.ViewModels
                         List<CountryHoliday> countryHolidays = new List<CountryHoliday>();
                         countryHolidays.AddRange(await _holidayRetriever.GetPublicHolidays(dateFrom, dateTo, countryIsoCode, languageIsoCode));
                         countryHolidays.AddRange(await _holidayRetriever.GetSchoolHolidays(dateFrom, dateTo, countryIsoCode, languageIsoCode));
-                        HolidayResultDetailsViewModel = new(countryHolidays, SelectedDateFrom, SelectedDateTo);
-                        IsProcessingData = false;
+                        HolidayResultDetailsViewModel = new(countryHolidays, SelectedDateFrom, SelectedDateTo, () => this.IsProcessingData = false);
                         var navigationParameter = new Dictionary<string, object>
                         {
                             {

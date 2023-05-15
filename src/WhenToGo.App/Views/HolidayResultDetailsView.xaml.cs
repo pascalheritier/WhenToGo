@@ -25,4 +25,10 @@ public partial class HolidayResultDetailsView : ContentPage
         }
     }
     private HolidayResultDetailsViewModel m_ViewModel;
+
+    protected override void OnAppearing()
+    {
+        base.OnAppearing();
+        this.ViewModel.DoRenderingDone();
+    }
 }

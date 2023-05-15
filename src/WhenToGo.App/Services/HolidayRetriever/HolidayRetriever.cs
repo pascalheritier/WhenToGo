@@ -58,7 +58,7 @@ namespace WhenToGo.App.Services
 
         private async Task<IEnumerable<CountryHoliday>> RequestHolidays(HttpClient client, HttpRequestMessage request)
         {
-            CountryHoliday[]? holidays = null;
+            CountryHoliday[] holidays = null;
             using (var response = await client.SendAsync(request))
             {
                 response.EnsureSuccessStatusCode();

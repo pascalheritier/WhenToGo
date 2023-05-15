@@ -5,6 +5,7 @@
         #region Member
 
         private IEnumerable<CountryHoliday> _retrievedHolidays;
+        private Action _onRenderingDone;
 
         #endregion
 
@@ -28,26 +29,28 @@
 
         #region Constructor
 
-        public HolidayResultDetailsViewModel(IEnumerable<CountryHoliday> holidays, DateTime dateFrom, DateTime dateTo)
+        public HolidayResultDetailsViewModel(IEnumerable<CountryHoliday> holidays, DateTime dateFrom, DateTime dateTo, Action onRenderingDone)
         {
             _retrievedHolidays = holidays;
             SelectedDateFrom = dateFrom;
             SelectedDateTo = dateTo;
             FilterByPreferredCounties = true;
+            _onRenderingDone = onRenderingDone;
         }
 
         #endregion
 
 
         #region Description
+
         public bool FilterByPreferredCounties
         {
             get => _filterByPreferredCounties;
-            private set
+            set
             {
                 SetField(ref _filterByPreferredCounties, value);
                 if (value)
-                    Holidays = _retrievedHolidays.Where(h => h.Subdivisions.Any(s => PreferredCounties.Any(c => c.Contains(s.Code))));
+                    Holidays = _retrievedHolidays.Where(h =>h.NationWide || h.Subdivisions.Any(s => PreferredCounties.Any(c => c.Contains(s.Code))));
                 else
                     Holidays = _retrievedHolidays;
             }
@@ -64,6 +67,11 @@
             private set => SetField(ref _holidays, value);
         }
         private IEnumerable<CountryHoliday> _holidays;
+
+        public void DoRenderingDone()
+        {
+            _onRenderingDone?.Invoke();
+        }
 
         #endregion
     }
