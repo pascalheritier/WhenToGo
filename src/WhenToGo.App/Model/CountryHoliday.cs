@@ -2,6 +2,8 @@
 {
     public class CountryHoliday
     {
+        #region API Model
+
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
@@ -12,28 +14,36 @@
 
         public bool NationWide { get; set; }
 
-        public List<Subdivision> Subdivisions { get; set; }
+        public List<Subdivision> Subdivisions 
+        { 
+            get
+            {
+                if (IsSubdivisionFilterActive)
+                    return _subdivisionFilter.FilterValues(_subdivisions);
+                return _subdivisions;
+            }
+            set => _subdivisions = value; 
+        }
+        private List<Subdivision> _subdivisions;
+
 
         public List<HolidayComment> Comments { get; set; }
 
         public string CurrentName => Name.FirstOrDefault()?.Text;
-    }
 
-    public class HolidayName
-    {
-        public string Text { get; set; }
-        public string Language { get; set; }
-    }
+        #endregion
 
-    public class HolidayComment
-    {
-        public string Text { get; set; }
-        public string Language { get; set; }
-    }
+        #region Filtering
 
-    public class Subdivision
-    {
-        public string Code { get; set; }
-        public string ShortName { get; set; }
+        public bool IsSubdivisionFilterActive => _subdivisionFilter != null;
+
+        private Filter<List<Subdivision>> _subdivisionFilter;
+
+        public void ApplySubdivisionFilter(Filter<List<Subdivision>> subdivisionFilter)
+        {
+            _subdivisionFilter = subdivisionFilter;
+        }
+
+        #endregion
     }
 }

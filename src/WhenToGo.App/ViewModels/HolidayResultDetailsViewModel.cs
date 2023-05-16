@@ -1,4 +1,6 @@
-﻿namespace WhenToGo.App.ViewModels
+﻿using WhenToGo.App.Utils;
+
+namespace WhenToGo.App.ViewModels
 {
     public class HolidayResultDetailsViewModel : BaseViewModel
     {
@@ -6,24 +8,6 @@
 
         private IEnumerable<CountryHoliday> _retrievedHolidays;
         private Action _onRenderingDone;
-
-        #endregion
-
-        #region Consts
-
-        IEnumerable<string> PreferredCounties
-        {
-            get
-            {
-                yield return "CH-BE";
-                yield return "CH-GE";
-                yield return "CH-FR";
-                yield return "CH-JU";
-                yield return "CH-NE";
-                yield return "CH-VD";
-                yield return "CH-VS";
-            }
-        }
 
         #endregion
 
@@ -50,9 +34,22 @@
             {
                 SetField(ref _filterByPreferredCounties, value);
                 if (value)
-                    Holidays = _retrievedHolidays.Where(h =>h.NationWide || h.Subdivisions.Any(s => PreferredCounties.Any(c => c.Contains(s.Code))));
+                {
+                    // filter CountryHolidays containing filtered counties
+                    IEnumerable<CountryHoliday> filteredHolidays = _retrievedHolidays.Where(h =>h.NationWide || h.Subdivisions.Any(s => AppConstants.PreferredCounties.Any(c => c.Contains(s.Code))));
+                    // apply counties filtering in holidays
+                    Filter<List<Subdivision>> subdivisionFilter = new(subdivisions =>
+                    {
+                        return subdivisions.Where(sub => AppConstants.PreferredCounties.Any(c => c == sub.Code)).ToList();
+                    });
+                    filteredHolidays.ForEach(h => h.ApplySubdivisionFilter(subdivisionFilter));
+                    Holidays = filteredHolidays;
+                }
                 else
+                {
+                    _retrievedHolidays.ForEach(h => h.ApplySubdivisionFilter(null));
                     Holidays = _retrievedHolidays;
+                }
             }
         }
         private bool _filterByPreferredCounties;

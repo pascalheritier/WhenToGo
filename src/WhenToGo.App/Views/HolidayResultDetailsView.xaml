@@ -4,78 +4,86 @@
              x:Class="WhenToGo.App.Views.HolidayResultDetailsView"
              xmlns:toolkit="clr-namespace:CommunityToolkit.Maui.Converters;assembly=CommunityToolkit.Maui"
              xmlns:converters="clr-namespace:WhenToGo.App.Converters"
+             xmlns:local="clr-namespace:WhenToGo.App.Views"
+             x:Name="DetailView"
              Title="Found holidays">
     <Grid Margin="10">
         <Label Text="Good to go, no holiday found for date range :-)" 
                VerticalOptions="Center"
                HorizontalOptions="Center"
-               TextColor="Green"
+               TextColor="{AppThemeBinding Light=Green, Dark=LightGreen}"
                IsVisible="{Binding Holidays, Converter={toolkit:IsListNullOrEmptyConverter}}"/>
 
-        <StackLayout IsVisible="{Binding Holidays, Converter={toolkit:IsListNotNullOrEmptyConverter}}">
-            <HorizontalStackLayout>
-                <Label Text="Cantons Romands only:"
+        <ScrollView  VerticalScrollBarVisibility="Always" IsVisible="{Binding Holidays, Converter={toolkit:IsListNotNullOrEmptyConverter}}">
+            <Grid RowDefinitions="auto,auto" >
+                <HorizontalStackLayout Grid.Row="0">
+                    <Label Text="Cantons Romands only:"
                        VerticalOptions="Center"/>
-                <Switch IsToggled="{Binding FilterByPreferredCounties, Mode=TwoWay}"
+                    <Switch IsToggled="{Binding FilterByPreferredCounties, Mode=TwoWay}"
                         VerticalOptions="Center"/>
-            </HorizontalStackLayout>
+                </HorizontalStackLayout>
 
-            <!-- RESULTS -->
-            <CollectionView ItemsSource="{Binding Holidays}">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Frame Padding="5" Margin="1" BackgroundColor="{StaticResource Primary}">
-                            <VerticalStackLayout>
-                                <Label Text="{Binding CurrentName}" 
-                                       TextColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Primary}}"/>
-                                <Label Text="{Binding Type}" 
-                                       TextColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Primary}}"/>
-                                <Label Text="{Binding StartDate, StringFormat='{}{0:\\Fro\\m: dd/MM/yyyy}'}" 
-                                       TextColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Primary}}"/>
-                                <Label Text="{Binding EndDate, StringFormat='{}{0:\\To: dd/MM/yyyy}'}" 
-                                       TextColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Primary}}"/>
-                                <!-- COUNTRY DISPLAY-->
-                                <Frame IsVisible="{Binding NationWide}"
-                                       BackgroundColor="{StaticResource White}"
-                                       Padding="2">
-                                    <VerticalStackLayout HorizontalOptions="Start">
-                                        <Image Source="ch_ch.svg"
+                <!-- RESULTS -->
+                <CollectionView Grid.Row="1"  ItemsSource="{Binding Holidays}">
+                    <CollectionView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Padding="5" Margin="1" BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Secondary}}">
+                                <VerticalStackLayout>
+                                    <Label Text="{Binding CurrentName}" 
+                                       TextColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray100}}"/>
+                                    <Label Text="{Binding Type}" 
+                                       TextColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray100}}"/>
+                                    <Label Text="{Binding StartDate, StringFormat='{}{0:\\Fro\\m: dd/MM/yyyy}'}" 
+                                       TextColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray100}}"/>
+                                    <Label Text="{Binding EndDate, StringFormat='{}{0:\\To: dd/MM/yyyy}'}" 
+                                       TextColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray100}}"/>
+                                    <!-- COUNTRY DISPLAY-->
+                                    <Frame IsVisible="{Binding NationWide}"
+                                           BackgroundColor="{AppThemeBinding Light={StaticResource Tertiary}, Dark={StaticResource Primary}}"
+                                           Padding="2" 
+                                           CornerRadius="0"
+                                           BorderColor="Transparent">
+                                        <VerticalStackLayout HorizontalOptions="Start">
+                                            <Image Source="ch_ch.svg"
                                                WidthRequest="48"
                                                HeightRequest="48"/>
-                                        <Label Text="CH" 
+                                            <Label Text="CH" 
                                                HorizontalOptions="Center"
                                                HorizontalTextAlignment="Center"/>
-                                    </VerticalStackLayout>
-                                </Frame>
-                                <!-- COUNTIES DISPLAY -->
-                                <VerticalStackLayout IsVisible="{Binding NationWide, Converter={toolkit:InvertedBoolConverter}}">
-                                    <Label Text="{Binding Subdivisions.Count, StringFormat='{}{0:Cantons: 0}'}"
-                                           TextColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Primary}}"/>
-                                    <ScrollView Orientation="Horizontal" HorizontalOptions="Fill">
-                                        <CollectionView ItemsSource="{Binding Subdivisions}"
-                                                HorizontalScrollBarVisibility="Always"
-                                                ItemsLayout="HorizontalList">
-                                            <CollectionView.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Frame BackgroundColor="{StaticResource White}"
-                                                           Padding="2">
-                                                        <VerticalStackLayout>
+                                        </VerticalStackLayout>
+                                    </Frame>
+                                    <!-- COUNTIES DISPLAY -->
+                                    <VerticalStackLayout IsVisible="{Binding NationWide, Converter={toolkit:InvertedBoolConverter}}">
+                                        <Label Text="{Binding Subdivisions.Count, StringFormat='{}{0:Cantons: 0}'}"
+                                           TextColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Gray100}}"/>
+                                        <ScrollView Orientation="Horizontal" 
+                                                HorizontalOptions="Fill" 
+                                                BackgroundColor="{AppThemeBinding Light={StaticResource Tertiary}, Dark={StaticResource Primary}}">
+                                            <CollectionView ItemsSource="{Binding Subdivisions}"
+                                                        HorizontalScrollBarVisibility="Always">
+                                                <CollectionView.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <VerticalStackLayout Margin="2" IsVisible="{Binding Code, Converter={converters:CountyCodeToBooleanConverter}, ConverterParameter={Binding Path=ViewModel.FilterByPreferredCounties, Source={x:Reference DetailView}}}">
                                                             <Image Source="{Binding Code,Converter={converters:IsoCodeToImageConverter}}"
-                                                                   WidthRequest="48"
-                                                                   HeightRequest="48"/>
-                                                            <Label Text="{Binding ShortName}" HorizontalOptions="Center"/>
+                                                               WidthRequest="48"
+                                                               HeightRequest="48"/>
+                                                            <Label Text="{Binding ShortName}" 
+                                                               HorizontalOptions="Center"/>
                                                         </VerticalStackLayout>
-                                                    </Frame>
-                                                </DataTemplate>
-                                            </CollectionView.ItemTemplate>
-                                        </CollectionView>
-                                    </ScrollView>
+                                                    </DataTemplate>
+                                                </CollectionView.ItemTemplate>
+                                                <CollectionView.ItemsLayout>
+                                                    <GridItemsLayout Orientation="Horizontal"/>
+                                                </CollectionView.ItemsLayout>
+                                            </CollectionView>
+                                        </ScrollView>
+                                    </VerticalStackLayout>
                                 </VerticalStackLayout>
-                            </VerticalStackLayout>
-                        </Frame>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </StackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </CollectionView.ItemTemplate>
+                </CollectionView>
+            </Grid>
+        </ScrollView>
     </Grid>
 </ContentPage>
