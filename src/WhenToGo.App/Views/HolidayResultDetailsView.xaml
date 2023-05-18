@@ -38,10 +38,10 @@
                                  HorizontalOptions="Center"
                                  IsVisible="{Binding Holidays, Converter={toolkit:IsListNullOrEmptyConverter}}">
 
-                <!--<Image Source="{AppThemeBinding Light='Images/happyracoon_light.png', Dark='Images/happyracoon.png'}"
+                <Image Source="{AppThemeBinding Light='Images/happyracoon_light.png', Dark='Images/happyracoon.png'}"
                        Margin="0,50"
                        WidthRequest="256"
-                       HeightRequest="256"/>-->
+                       HeightRequest="256"/>
                 
                 <Label Text="Good to go, no holiday found for date range :-)"
                        TextColor="{AppThemeBinding Light=Green, Dark=LightGreen}"/>
