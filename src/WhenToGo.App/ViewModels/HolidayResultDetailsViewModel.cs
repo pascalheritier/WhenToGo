@@ -32,6 +32,7 @@ namespace WhenToGo.App.ViewModels
             get => _filterByPreferredCounties;
             set
             {
+                IsProcessingData = true;
                 SetField(ref _filterByPreferredCounties, value);
                 if (value)
                 {
@@ -50,9 +51,17 @@ namespace WhenToGo.App.ViewModels
                     _retrievedHolidays.ForEach(h => h.ApplySubdivisionFilter(null));
                     Holidays = _retrievedHolidays;
                 }
+                IsProcessingData = false;
             }
         }
         private bool _filterByPreferredCounties;
+
+        public bool IsProcessingData
+        {
+            get => _isProcessingData;
+            private set => SetField(ref _isProcessingData, value);
+        }
+        private bool _isProcessingData;
 
         public DateTime SelectedDateFrom { get; }
 

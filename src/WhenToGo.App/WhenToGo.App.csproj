@@ -47,7 +47,33 @@
 
 		<!-- Images -->
 		<MauiImage Include="Resources\Images\*" />
-		<MauiImage Include="Resources\Images\CH\*" />
+		<MauiImage Include="Resources\Images\CH\ch_ag.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_ai.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_ar.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_be.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_bl.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_bs.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_ch.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_fr.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_ge.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_gl.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_gr.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_ju.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_lu.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_ne.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_nw.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_ow.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_sg.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_sh.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_so.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_sz.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_tg.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_ti.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_ur.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_vd.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_vs.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_zg.svg" BaseSize="48,48"/>
+		<MauiImage Include="Resources\Images\CH\ch_zh.svg" BaseSize="48,48"/>
 
 		<!-- Custom Fonts -->
 		<MauiFont Include="Resources\Fonts\*" />

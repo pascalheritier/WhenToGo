@@ -10,35 +10,35 @@
                    Margin="0,50"
                    WidthRequest="256"
                    HeightRequest="256"/>
-            
-            <!-- DATE PICKERS -->
-        <Grid ColumnDefinitions="auto, auto" 
+
+            <!--DATE PICKERS-->
+            <Grid ColumnDefinitions="auto, auto" 
               RowDefinitions="auto,auto,auto, auto" 
               HorizontalOptions="Center" 
               VerticalOptions="Center">
 
-            <Label Grid.Column="0" 
+                <Label Grid.Column="0" 
                    Grid.Row="0"
                    Text="From:" 
                    VerticalOptions="Center"/>
-            <DatePicker Grid.Column="1" 
+                <DatePicker Grid.Column="1" 
                         Grid.Row="0" 
                         Date="{Binding SelectedDateFrom}" 
                         Format="dd.MM.yyyy" 
                         VerticalOptions="Center"/>
 
-            <Label Grid.Column="0" 
+                <Label Grid.Column="0" 
                    Grid.Row="1"
                    Text="To:"
                    VerticalOptions="Center"/>
-            <DatePicker Grid.Column="1" 
+                <DatePicker Grid.Column="1" 
                         Grid.Row="1"
                         Date="{Binding SelectedDateTo}"
                         Format="dd.MM.yyyy"
                         VerticalOptions="Center"/>
 
-            <!-- GET BUTTON -->
-            <Button Grid.Row="2"
+                <!--GET BUTTON-->
+                <Button Grid.Row="2"
                     Grid.ColumnSpan="2"
                     Text="Get holidays"
                     SemanticProperties.Hint="Get public and school holidays"
@@ -46,7 +46,7 @@
                     HorizontalOptions="Center" />
 
 
-            <Label Grid.Row="3"
+                <Label Grid.Row="3"
                    Grid.ColumnSpan="2"
                    MaximumWidthRequest="320"
                    Text="{Binding ErrorMessage}"

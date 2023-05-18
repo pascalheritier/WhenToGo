@@ -9,7 +9,7 @@ namespace WhenToGo.App.Converters
         {
             if(value is string stringValue)
             {
-                return stringValue.ToLower().Replace("-", "_") + Utilities.SvgFileExtension;
+                return stringValue.ToLower().Replace("-", "_") + Utilities.PngFileExtension; // As per doc, use png extension even for svg files: https://learn.microsoft.com/en-us/dotnet/maui/user-interface/images/images
             }
             return null;
         }

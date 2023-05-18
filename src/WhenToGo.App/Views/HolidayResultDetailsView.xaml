@@ -14,6 +14,9 @@
                TextColor="{AppThemeBinding Light=Green, Dark=LightGreen}"
                IsVisible="{Binding Holidays, Converter={toolkit:IsListNullOrEmptyConverter}}"/>
 
+        <ActivityIndicator IsRunning="{Binding IsProcessingData}"
+                           BackgroundColor="DarkGray"/>
+        
         <ScrollView  VerticalScrollBarVisibility="Always" IsVisible="{Binding Holidays, Converter={toolkit:IsListNotNullOrEmptyConverter}}">
             <Grid RowDefinitions="auto,auto" >
                 <HorizontalStackLayout Grid.Row="0">
