@@ -6,7 +6,7 @@
     <Grid>
         <VerticalStackLayout>
 
-            <Image Source="{AppThemeBinding Light='Images/mainracoon.jpeg', Dark='Images/mainracoon_light.jpeg'}"
+            <Image Source="{AppThemeBinding Light='Images/mainracoon_light.jpeg', Dark='Images/mainracoon.jpeg'}"
                    Margin="0,50"
                    WidthRequest="256"
                    HeightRequest="256"/>
