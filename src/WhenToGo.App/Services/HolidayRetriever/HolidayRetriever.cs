@@ -2,12 +2,13 @@
 
 namespace WhenToGo.App.Services
 {
-
     internal class HolidayRetriever : IHolidayRetriever
     {
         #region Const
 
         private const string DisplayDateFormat = "dd.MM.yyyy";
+        public const string HolidayTypePublicName = "Public";
+        public const string HolidayTypeSchoolName = "School";
 
         #endregion
 

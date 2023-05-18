@@ -8,23 +8,49 @@
              x:Name="DetailView"
              Title="Found holidays">
     <Grid>
-        <Label Text="Good to go, no holiday found for date range :-)" 
-               VerticalOptions="Center"
-               HorizontalOptions="Center"
-               TextColor="{AppThemeBinding Light=Green, Dark=LightGreen}"
-               IsVisible="{Binding Holidays, Converter={toolkit:IsListNullOrEmptyConverter}}"/>
-
-        <ScrollView VerticalScrollBarVisibility="Always"
-                    Margin="10"
-                    IsVisible="{Binding Holidays, Converter={toolkit:IsListNotNullOrEmptyConverter}}">
-            <Grid RowDefinitions="auto,auto" >
-                <HorizontalStackLayout Grid.Row="0">
+        <Grid RowDefinitions="auto,auto">
+            <!-- FILTERS -->
+            <VerticalStackLayout Grid.Row="0">
+                <HorizontalStackLayout >
                     <Label Text="Cantons Romands only:"
-                       VerticalOptions="Center"/>
+                           VerticalOptions="Center"/>
                     <Switch IsToggled="{Binding FilterByPreferredCounties, Mode=TwoWay}"
-                        VerticalOptions="Center"/>
+                            VerticalOptions="Center"/>
                 </HorizontalStackLayout>
 
+                <HorizontalStackLayout >
+                    <Label Text="Show school holidays:"
+                           VerticalOptions="Center"/>
+                    <Switch IsToggled="{Binding FilterShowSchoolHolidays, Mode=TwoWay}"
+                            VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+
+                <HorizontalStackLayout >
+                    <Label Text="Show public holidays:"
+                           VerticalOptions="Center"/>
+                    <Switch IsToggled="{Binding FilterShowPublicHolidays, Mode=TwoWay}"
+                            VerticalOptions="Center"/>
+                </HorizontalStackLayout>
+            </VerticalStackLayout>
+
+            <VerticalStackLayout Grid.Row="1"  
+                                 VerticalOptions="Center"
+                                 HorizontalOptions="Center"
+                                 IsVisible="{Binding Holidays, Converter={toolkit:IsListNullOrEmptyConverter}}">
+
+                <!--<Image Source="{AppThemeBinding Light='Images/happyracoon_light.png', Dark='Images/happyracoon.png'}"
+                       Margin="0,50"
+                       WidthRequest="256"
+                       HeightRequest="256"/>-->
+                
+                <Label Text="Good to go, no holiday found for date range :-)"
+                       TextColor="{AppThemeBinding Light=Green, Dark=LightGreen}"/>
+            </VerticalStackLayout>
+
+            <ScrollView VerticalScrollBarVisibility="Always"
+                    Grid.Row="1"
+                    Margin="10"
+                    IsVisible="{Binding Holidays, Converter={toolkit:IsListNotNullOrEmptyConverter}}">
                 <!-- RESULTS -->
                 <CollectionView Grid.Row="1"
                                 ItemsSource="{Binding Holidays}"
@@ -87,9 +113,9 @@
                         </DataTemplate>
                     </CollectionView.ItemTemplate>
                 </CollectionView>
-            </Grid>
-        </ScrollView>
-
+            </ScrollView>
+        </Grid>
+        
         <ActivityIndicator IsRunning="{Binding IsRenderingInProgress}"
                            Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}"
                            BackgroundColor="{AppThemeBinding Light={StaticResource Tertiary}, Dark={StaticResource Secondary}}"/>
