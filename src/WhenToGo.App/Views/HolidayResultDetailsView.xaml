@@ -8,7 +8,7 @@
              x:Name="DetailView"
              Title="Found holidays">
     <Grid>
-        <Grid RowDefinitions="auto,auto">
+        <Grid RowDefinitions="auto,*">
             <!-- FILTERS -->
             <VerticalStackLayout Grid.Row="0">
                 <HorizontalStackLayout >
@@ -54,7 +54,8 @@
                 <!-- RESULTS -->
                 <CollectionView Grid.Row="1"
                                 ItemsSource="{Binding Holidays}"
-                                SizeChanged="CollectionView_SizeChanged">
+                                ChildAdded="CollectionView_ChildAdded"
+                                ChildRemoved="CollectionView_ChildRemoved">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Frame Padding="5" Margin="1" BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Secondary}}">

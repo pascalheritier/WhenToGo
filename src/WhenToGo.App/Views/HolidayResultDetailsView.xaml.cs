@@ -10,7 +10,6 @@ public partial class HolidayResultDetailsView : ContentPage
 	{
 		InitializeComponent();
         LayoutChanged += HolidayResultDetailsView_LayoutChanged;
-
     }
 
     public HolidayResultDetailsViewModel ViewModel
@@ -27,15 +26,26 @@ public partial class HolidayResultDetailsView : ContentPage
     }
     private HolidayResultDetailsViewModel m_ViewModel;
 
+    /// <summary>
+    /// We use this warkaround to display an activity indicator, because MAUI is quite slow at rendering nested collection views
+    /// </summary>
+    private int _collectionViewItemsCount;
+
     // When detail page is shown for the first time, this event is triggered when rendering is done
     private void HolidayResultDetailsView_LayoutChanged(object sender, EventArgs e)
     {
         this.ViewModel.DoRenderingDone();
     }
 
-    // When the number of items in the collection view has changed, this event is triggered when rendering is done (rendering is slow in MAUI)
-    private void CollectionView_SizeChanged(object sender, EventArgs e)
+    private void CollectionView_ChildAdded(object sender, ElementEventArgs e)
     {
-        this.ViewModel.DoRenderingDone();
+        _collectionViewItemsCount++;
+        if (_collectionViewItemsCount == this.ViewModel.Holidays.Count())
+            this.ViewModel.DoRenderingDone();
+    }
+
+    private void CollectionView_ChildRemoved(object sender, ElementEventArgs e)
+    {
+        _collectionViewItemsCount--;
     }
 }
