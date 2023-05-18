@@ -7,17 +7,16 @@
              xmlns:local="clr-namespace:WhenToGo.App.Views"
              x:Name="DetailView"
              Title="Found holidays">
-    <Grid Margin="10">
+    <Grid>
         <Label Text="Good to go, no holiday found for date range :-)" 
                VerticalOptions="Center"
                HorizontalOptions="Center"
                TextColor="{AppThemeBinding Light=Green, Dark=LightGreen}"
                IsVisible="{Binding Holidays, Converter={toolkit:IsListNullOrEmptyConverter}}"/>
 
-        <ActivityIndicator IsRunning="{Binding IsProcessingData}"
-                           BackgroundColor="DarkGray"/>
-        
-        <ScrollView  VerticalScrollBarVisibility="Always" IsVisible="{Binding Holidays, Converter={toolkit:IsListNotNullOrEmptyConverter}}">
+        <ScrollView VerticalScrollBarVisibility="Always"
+                    Margin="10"
+                    IsVisible="{Binding Holidays, Converter={toolkit:IsListNotNullOrEmptyConverter}}">
             <Grid RowDefinitions="auto,auto" >
                 <HorizontalStackLayout Grid.Row="0">
                     <Label Text="Cantons Romands only:"
@@ -27,7 +26,9 @@
                 </HorizontalStackLayout>
 
                 <!-- RESULTS -->
-                <CollectionView Grid.Row="1"  ItemsSource="{Binding Holidays}">
+                <CollectionView Grid.Row="1"
+                                ItemsSource="{Binding Holidays}"
+                                SizeChanged="CollectionView_SizeChanged">
                     <CollectionView.ItemTemplate>
                         <DataTemplate>
                             <Frame Padding="5" Margin="1" BackgroundColor="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Secondary}}">
@@ -88,5 +89,9 @@
                 </CollectionView>
             </Grid>
         </ScrollView>
+
+        <ActivityIndicator IsRunning="{Binding IsRenderingInProgress}"
+                           Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}"
+                           BackgroundColor="{AppThemeBinding Light={StaticResource Tertiary}, Dark={StaticResource Secondary}}"/>
     </Grid>
 </ContentPage>

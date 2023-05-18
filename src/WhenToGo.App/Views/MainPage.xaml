@@ -6,7 +6,7 @@
     <Grid>
         <VerticalStackLayout>
 
-            <Image Source="{AppThemeBinding Light='Images/mainracoon.jpg', Dark='Images/mainracoon_light.jpg'}"
+            <Image Source="{AppThemeBinding Light='Images/mainracoon.jpeg', Dark='Images/mainracoon_light.jpeg'}"
                    Margin="0,50"
                    WidthRequest="256"
                    HeightRequest="256"/>
@@ -39,11 +39,12 @@
 
                 <!--GET BUTTON-->
                 <Button Grid.Row="2"
-                    Grid.ColumnSpan="2"
-                    Text="Get holidays"
-                    SemanticProperties.Hint="Get public and school holidays"
-                    Command="{Binding CommandGetHolidays}"
-                    HorizontalOptions="Center" />
+                        Grid.ColumnSpan="2"
+                        Margin="20"
+                        Text="Get holidays"
+                        SemanticProperties.Hint="Get public and school holidays"
+                        Command="{Binding CommandGetHolidays}"
+                        HorizontalOptions="Center" />
 
 
                 <Label Grid.Row="3"
@@ -58,7 +59,8 @@
         </VerticalStackLayout>
 
         <ActivityIndicator IsRunning="{Binding IsProcessingData}"
-                           BackgroundColor="DarkGray"/>
+                           Color="{AppThemeBinding Light={StaticResource Primary}, Dark={StaticResource Primary}}"
+                           BackgroundColor="{AppThemeBinding Light={StaticResource Tertiary}, Dark={StaticResource Secondary}}"/>
     </Grid>
 
 </ContentPage>

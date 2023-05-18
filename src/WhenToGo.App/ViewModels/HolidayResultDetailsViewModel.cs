@@ -32,36 +32,48 @@ namespace WhenToGo.App.ViewModels
             get => _filterByPreferredCounties;
             set
             {
-                IsProcessingData = true;
+                // first display the activity indicator while filtering is performed
+                IsRenderingInProgress = true;
+
                 SetField(ref _filterByPreferredCounties, value);
-                if (value)
+                Task.Run(() =>
                 {
-                    // filter CountryHolidays containing filtered counties
-                    IEnumerable<CountryHoliday> filteredHolidays = _retrievedHolidays.Where(h =>h.NationWide || h.Subdivisions.Any(s => AppConstants.PreferredCounties.Any(c => c.Contains(s.Code))));
-                    // apply counties filtering in holidays
-                    Filter<List<Subdivision>> subdivisionFilter = new(subdivisions =>
+                    int? initialCount = Holidays?.Count();
+                    if (value)
                     {
-                        return subdivisions.Where(sub => AppConstants.PreferredCounties.Any(c => c == sub.Code)).ToList();
-                    });
-                    filteredHolidays.ForEach(h => h.ApplySubdivisionFilter(subdivisionFilter));
-                    Holidays = filteredHolidays;
-                }
-                else
-                {
-                    _retrievedHolidays.ForEach(h => h.ApplySubdivisionFilter(null));
-                    Holidays = _retrievedHolidays;
-                }
-                IsProcessingData = false;
-            }
+                        // filter CountryHolidays containing filtered counties
+                        IEnumerable<CountryHoliday> filteredHolidays = _retrievedHolidays.Where(h => h.NationWide || h.Subdivisions.Any(s => AppConstants.PreferredCounties.Any(c => c.Contains(s.Code))));
+                        // apply counties filtering in holidays
+                        Filter<List<Subdivision>> subdivisionFilter = new(subdivisions =>
+                        {
+                            return subdivisions.Where(sub => AppConstants.PreferredCounties.Any(c => c == sub.Code)).ToList();
+                        });
+                        filteredHolidays.ForEach(h => h.ApplySubdivisionFilter(subdivisionFilter));
+                        Holidays = filteredHolidays;
+                    }
+                    else
+                    {
+                        _retrievedHolidays.ForEach(h => h.ApplySubdivisionFilter(null));
+                        Holidays = _retrievedHolidays;
+                    }
+
+                    // this is a workaround to hide the activity indicator when filtering is done and collection view has not changed in size
+                    if (initialCount is not null && Holidays.Count() == initialCount)
+                        IsRenderingInProgress = false;
+            });
+        }
         }
         private bool _filterByPreferredCounties;
 
-        public bool IsProcessingData
+        /// <summary>
+        /// Due to MAUI slow rendering for nested collection views, we display an ActivityIndicator while rendering is in progress.
+        /// </summary>
+        public bool IsRenderingInProgress
         {
-            get => _isProcessingData;
-            private set => SetField(ref _isProcessingData, value);
+            get => _isRenderingInProgress;
+            private set => SetField(ref _isRenderingInProgress, value);
         }
-        private bool _isProcessingData;
+        private bool _isRenderingInProgress;
 
         public DateTime SelectedDateFrom { get; }
 
@@ -77,6 +89,7 @@ namespace WhenToGo.App.ViewModels
         public void DoRenderingDone()
         {
             _onRenderingDone?.Invoke();
+            this.IsRenderingInProgress = false;
         }
 
         #endregion

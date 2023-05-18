@@ -42,6 +42,9 @@ namespace WhenToGo.App.ViewModels
         }
         private string _errorMessage;
 
+        /// <summary>
+        /// Indicates if application is retrieving and processing data from API.
+        /// </summary>
         public bool IsProcessingData
         {
             get => _isProcessingData;
